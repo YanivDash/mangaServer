@@ -21,13 +21,7 @@ app.use(express.json());
 const salt = 10;
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(cookieParser());
 
