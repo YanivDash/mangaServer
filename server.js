@@ -22,18 +22,13 @@ const salt = 10;
 
 app.use(express.json());
 
-app.use(cors({ credentials: true }));
-
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://funny-dolphin-d0181d.netlify.app"
-  ); // Set the specific origin
-  res.header("Access-Control-Allow-Credentials", "true"); // Allow credentials
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+app.use(
+  cors({
+    origin: ["https://funny-dolphin-d0181d.netlify.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 
