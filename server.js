@@ -150,7 +150,11 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-            res.cookie("token", token, { httpOnly: false });
+            res.cookie("token", "xxx-xxx-xxx", {
+              httpOnly: true,
+              SameSite: "None",
+            });
+            res.cookie("token", token, { httpOnly: true });
             // res.cookie("token", token);
             return res.json({ Status: "success" });
           } else {
