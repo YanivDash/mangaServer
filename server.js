@@ -133,9 +133,6 @@ app.post("/incrementViews", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("token", "token is getting sent");
-  return res.json({ Status: "success" });
-
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
 
