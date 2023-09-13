@@ -19,11 +19,14 @@ const port = process.env.DB_Port || 3306;
 const app = express();
 app.use(express.json());
 const salt = 10;
+
 app.use(express.json());
 
 app.use(cors());
 
 app.use(cookieParser());
+
+app.use(express.urlencoded({ extended: true }));
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
