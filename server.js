@@ -151,7 +151,6 @@ app.post("/login", (req, res) => {
               expiresIn: "1d",
             });
             res.cookie("token", token, {
-              sameSite: none,
               maxAge: 24 * 60 * 60 * 1000,
             });
             return res.json({ Status: "success" });
