@@ -179,20 +179,6 @@ cron.schedule("0 2 * * *", () => {
   chapterUpdate();
 });
 
-const sql = `INSERT INTO admins (name,email,password) VALUES (?)`;
-bcrypt.hash("yanivAlgorithm121004", salt, (err, hash) => {
-  if (err) return res.json({ Error: "Error for hasing password" });
-  const values = ["yaniv", "roxys2325@gmail.com", hash];
-  console.log("here");
-  db.query(sql, [values], (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("success");
-    }
-  });
-});
-
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
