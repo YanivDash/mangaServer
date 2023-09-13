@@ -154,8 +154,8 @@ app.post("/login", (req, res) => {
               httpOnly: true,
               SameSite: "None",
             });
-            res.cookie("token", token, { httpOnly: true });
-            // res.cookie("token", token);
+
+            res.cookie("token", token);
             return res.json({ Status: "success" });
           } else {
             return res.json({ Error: "password not matched" });
