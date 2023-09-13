@@ -24,7 +24,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: ["https://funny-dolphin-d0181d.netlify.app"],
+    origin: ["https://elegant-daifuku-1dd9e4.netlify.app"],
     methods: ["POST", "GET"],
     credentials: true,
   })
