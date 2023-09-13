@@ -14,7 +14,7 @@ dotenv.config();
 
 import db from "./database/dbConnection.js";
 
-const port = process.env.DB_Port || 3306;
+const port = process.env.PORT || 0.0;
 
 const app = express();
 app.use(express.json());
