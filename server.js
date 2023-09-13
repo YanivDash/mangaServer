@@ -93,6 +93,24 @@ app.get("/allManga", async (req, res) => {
   }
 });
 
+app.get("/", async (req, res) => {
+  console.log("mangaserver-production.up.railway.app");
+
+  try {
+    const data = await getAllManga();
+
+    if (!data || data.length === 0) {
+      console.log("entered empty data");
+      return res.status(400).json({ error: "Invalid request data." });
+    }
+
+    res.status(200).json({ result: data });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred." });
+  }
+});
+
 app.post("/incrementViews", async (req, res) => {
   try {
     const data = req.body;
