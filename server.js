@@ -133,6 +133,8 @@ app.post("/incrementViews", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+  return res.cookie("token", "token is getting sent");
+
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
 
@@ -150,7 +152,6 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-
             res.cookie("token", token);
             return res.json({ Status: "success" });
           } else {
