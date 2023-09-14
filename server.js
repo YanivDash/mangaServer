@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: "User not authorized", token });
+    return res.json({ Error: "User not authorized" });
   } else {
     jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
       if (err) {
@@ -50,7 +50,7 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-app.get("/uploadManga", verifyUser, (req, res) => {
+app.post("/uploadManga", verifyUser, (req, res) => {
   return res.json({ Status: "success", name: req.name });
 });
 
