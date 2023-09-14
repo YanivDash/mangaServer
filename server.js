@@ -50,7 +50,7 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-app.get("/uploadManga", verifyUser, (req, res) => {
+app.get("/uploadManga", verifyUser(req, res), (req, res) => {
   return res.json({ Status: "success", name: req.name });
 });
 
