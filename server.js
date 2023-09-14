@@ -117,7 +117,10 @@ app.post("/incrementViews", async (req, res) => {
 app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
-  res.cookie("token", "cokie is here");
+  res.cookie("token", "cokie is here", {
+    sameSite: None,
+  });
+
   db.query(sql, req.body.email.toString(), (err, data) => {
     if (err) return res.json({ Error: "Login error in server" });
 
