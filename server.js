@@ -81,7 +81,11 @@ app.post("/createManga", async (req, res) => {
 });
 
 app.get("/allManga", async (req, res) => {
-  res.cookie("myCookie", "exampleValue");
+  res.cookie("myCookie", "exampleValue", {
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+  });
   try {
     const data = await getAllManga();
 
