@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: req, token });
+    return res.json({ Error: "user not authorized", token });
   } else {
     jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
       if (err) {
@@ -50,20 +50,8 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-app.get("/uploadManga", (req, res) => {
-  const token = req.cookie.token;
-  if (!token) {
-    return res.json({ Error: req.cookies });
-  } else {
-    jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
-      if (err) {
-        return res.json({ Error: "Token is not verified" });
-      } else {
-        req.name = decoded.name;
-        return res.json({ Status: "success", name: req.name });
-      }
-    });
-  }
+app.get("/uploadManga", verifyUser, (req, res) => {
+  return res.json({ Status: "success", name: req.name });
 });
 
 app.post("/chapter", async (req, res) => {
@@ -127,7 +115,9 @@ app.post("/incrementViews", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+  console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
+  res.cookie("token", token);
 
   db.query(sql, req.body.email.toString(), (err, data) => {
     if (err) return res.json({ Error: "Login error in server" });
@@ -144,7 +134,7 @@ app.post("/login", (req, res) => {
               expiresIn: "1d",
             });
 
-            res.json({ Status: "success", cookie: token });
+            return res.json({ Status: "success" });
           } else {
             return res.json({ Error: "password not matched" });
           }
