@@ -81,11 +81,6 @@ app.post("/createManga", async (req, res) => {
 });
 
 app.get("/allManga", async (req, res) => {
-  return res.cookie("myCookie", "exampleValue", {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-  });
   try {
     const data = await getAllManga();
 
@@ -95,6 +90,11 @@ app.get("/allManga", async (req, res) => {
     }
 
     res.status(200).json({ result: data });
+    res.cookie("myCookie", "exampleValue", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+    });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred." });
