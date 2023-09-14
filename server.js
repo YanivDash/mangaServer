@@ -50,8 +50,21 @@ const verifyUser = (req, res, next) => {
   }
 };
 
-app.get("/uploadManga", verifyUser(req, res), (req, res) => {
-  return res.json({ Status: "success", name: req.name });
+app.get("/uploadManga", (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json({ Error: req, token });
+  } else {
+    jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
+      if (err) {
+        return res.json({ Error: "Token is not verified" });
+      } else {
+        req.name = decoded.name;
+        return res.json({ Status: "success", name: req.name });
+        next();
+      }
+    });
+  }
 });
 
 app.post("/chapter", async (req, res) => {
