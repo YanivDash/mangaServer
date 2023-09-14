@@ -122,7 +122,7 @@ app.post("/login", (req, res) => {
     maxAge: 3600000 * 5,
     secure: true,
     sameSite: "none",
-    domain: "https://elegant-daifuku-1dd9e4.netlify.app",
+    domain: "netlify.app",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
