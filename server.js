@@ -118,7 +118,10 @@ app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
   res.cookie("token", "cokie is here", {
-    sameSite: "lax",
+    httpOnly: true,
+    maxAge: 3600000 * 5,
+    secure: true,
+    sameSite: "none",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
