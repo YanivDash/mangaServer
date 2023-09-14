@@ -88,8 +88,8 @@ app.get("/allManga", async (req, res) => {
       console.log("entered empty data");
       return res.status(400).json({ error: "Invalid request data." });
     }
-    res.cookie("myCookie", "exampleValue");
-    res.status(200).json({ result: data });
+
+    res.status(200).json({ result: data, bode: res });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred." });
