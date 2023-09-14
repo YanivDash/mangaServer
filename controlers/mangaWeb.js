@@ -8,22 +8,43 @@ const mangaWeb = async (values) => {
     values.mangaLink,
     values.mangaClass,
   ];
+  let totalChapterD = 0;
   await scrapTotal(values.mangaLink, values.mangaClass).then((d) => {
     valuesArray.push(d);
+    totalChapterD = d;
   });
+
+  let message;
+
+  if (totalChapterD < -1) {
+    message = "could not scrape total chapter";
+    console.log(message);
+    return message;
+  }
 
   const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaLink\`, \`mangaClass\`,\`totalChapter\`)VALUES (?, ?, ?, ?, ?, ?)`;
 
-  db.query(sql, valuesArray, (err, result) => {
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.query(sql, valuesArray, (err, result) => {
+        if (result) {
+          resolve(result);
+        } else {
+          reject("error");
+        }
+      });
+    });
+
     if (result) {
-      const message = "succesfull";
-      return message;
-    } else {
-      console.log(err);
-      const message = "error";
+      const message = `successfully added to dataBase`;
       return message;
     }
-  });
+  } catch (error) {
+    const message = `error while inserting to database`;
+    return message;
+  }
+
+  return;
 };
 
 export default mangaWeb;

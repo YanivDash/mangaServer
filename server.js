@@ -69,9 +69,9 @@ app.post("/createManga", async (req, res) => {
       return res.status(400).json({ error: "Invalid request data." });
     }
     console.log(data);
-    await mangaWeb(data);
+    const result = await mangaWeb(data);
 
-    return res.status(200).json({ message: "Manga creation successful." });
+    return res.status(200).json({ message: result });
   } catch (error) {
     console.error("An error occurred:", error);
     return res
