@@ -118,9 +118,8 @@ app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
   res.cookie("token", "cokie is here", {
-    sameSite: "none",
+    sameSite: "strict",
     secure: true,
-    domain: "https://elegant-daifuku-1dd9e4.netlify.app",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
