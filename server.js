@@ -53,7 +53,7 @@ const verifyUser = (req, res, next) => {
 app.get("/uploadManga", (req, res) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: "User Not Authorized", token });
+    return res.json({ Error: "User Not Authorized", req });
   } else {
     jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
       if (err) {
