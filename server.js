@@ -120,6 +120,7 @@ app.post("/login", (req, res) => {
   res.cookie("token", "cokie is here", {
     sameSite: "none",
     secure: true,
+    domain: "https://elegant-daifuku-1dd9e4.netlify.app",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
