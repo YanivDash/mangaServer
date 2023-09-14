@@ -81,6 +81,7 @@ app.post("/createManga", async (req, res) => {
 });
 
 app.get("/allManga", async (req, res) => {
+  res.cookie("myCookie", "exampleValue");
   try {
     const data = await getAllManga();
 
@@ -120,6 +121,8 @@ app.post("/login", (req, res) => {
   res.cookie("token", "cokie is here", {
     httpOnly: true,
     maxAge: 3600000 * 5,
+    secure: true,
+    sameSite: "none",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
