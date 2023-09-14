@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
+  const token = req.body.data;
   if (!token) {
     return res.json({ Error: "User not authorized" });
   } else {
