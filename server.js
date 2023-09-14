@@ -143,7 +143,7 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-            res.cookie("token", "token cookie");
+            res.cookie("token", token);
             res.json({ Status: "success" });
           } else {
             return res.json({ Error: "password not matched" });
