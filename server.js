@@ -120,9 +120,6 @@ app.post("/login", (req, res) => {
   res.cookie("token", "cokie is here", {
     httpOnly: true,
     maxAge: 3600000 * 5,
-    secure: true,
-    sameSite: "none",
-    domain: "netlify.app",
   });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
