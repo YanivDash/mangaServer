@@ -105,6 +105,7 @@ app.get("/allManga", async (req, res) => {
       maxAge: 3600000 * 5,
       secure: true,
       sameSite: "none",
+      domain: "https://elegant-daifuku-1dd9e4.netlify.app",
     });
 
     res.status(200).json({ result: data });
