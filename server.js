@@ -100,7 +100,13 @@ app.get("/allManga", async (req, res) => {
       console.log("entered empty data");
       return res.status(400).json({ error: "Invalid request data." });
     }
-    res.cookie("cookie", "cookie is here");
+    res.cookie("cookie", "cookie is here", {
+      httpOnly: true,
+      maxAge: 3600000 * 5,
+      secure: true,
+      sameSite: "none",
+    });
+
     res.status(200).json({ result: data });
   } catch (error) {
     console.error("Error:", error);
