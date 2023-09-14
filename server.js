@@ -102,8 +102,6 @@ app.get("/allManga", async (req, res) => {
     }
     res.cookie("cookie", "cookie is here", {
       maxAge: 3600000 * 5,
-      secure: true,
-      sameSite: "none",
     });
 
     res.status(200).json({ result: data });
