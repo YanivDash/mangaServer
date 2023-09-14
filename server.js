@@ -81,7 +81,7 @@ app.post("/createManga", async (req, res) => {
 });
 
 app.get("/allManga", async (req, res) => {
-  res.cookie("myCookie", "exampleValue", {
+  return res.cookie("myCookie", "exampleValue", {
     httpOnly: false,
     secure: true,
     sameSite: "none",
