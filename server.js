@@ -115,9 +115,8 @@ app.post("/incrementViews", async (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
-
+  res.cookie("token", "token cookie");
   db.query(sql, req.body.email.toString(), (err, data) => {
     if (err) return res.json({ Error: "Login error in server" });
 
@@ -132,7 +131,7 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-            res.cookie("token", "token cookie");
+
             res.json({ Status: "success" });
           } else {
             return res.json({ Error: "password not matched" });
