@@ -89,7 +89,7 @@ app.get("/allManga", async (req, res) => {
       return res.status(400).json({ error: "Invalid request data." });
     }
 
-    res.status(200).json({ result: data, bode: res });
+    res.status(200).json({ result: data });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "An error occurred." });
@@ -117,12 +117,6 @@ app.post("/incrementViews", async (req, res) => {
 app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
-  res.cookie("token", "cokie is here", {
-    httpOnly: true,
-    maxAge: 3600000 * 5,
-    secure: true,
-    sameSite: "none",
-  });
 
   db.query(sql, req.body.email.toString(), (err, data) => {
     if (err) return res.json({ Error: "Login error in server" });
@@ -138,8 +132,13 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-
-            return res.json({ Status: "success" });
+            // res.cookie("token", "cokie is here", {
+            //   httpOnly: true,
+            //   maxAge: 3600000 * 5,
+            //   secure: true,
+            //   sameSite: "none",
+            // });
+            return res.json({ Status: "success", cookie: token });
           } else {
             return res.json({ Error: "password not matched" });
           }
