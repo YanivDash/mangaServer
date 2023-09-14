@@ -53,7 +53,7 @@ const verifyUser = (req, res, next) => {
 app.get("/uploadManga", (req, res) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: req, token });
+    return res.json({ Error: "User Not Authorized", token });
   } else {
     jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
       if (err) {
@@ -61,7 +61,6 @@ app.get("/uploadManga", (req, res) => {
       } else {
         req.name = decoded.name;
         return res.json({ Status: "success", name: req.name });
-        next();
       }
     });
   }
@@ -129,7 +128,7 @@ app.post("/incrementViews", async (req, res) => {
 
 app.post("/login", (req, res) => {
   const sql = `SELECT * FROM admins WHERE email = ?`;
-  res.cookie("token", "token cookie");
+
   db.query(sql, req.body.email.toString(), (err, data) => {
     if (err) return res.json({ Error: "Login error in server" });
 
@@ -144,7 +143,7 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-
+            res.cookie("token", "token cookie");
             res.json({ Status: "success" });
           } else {
             return res.json({ Error: "password not matched" });
