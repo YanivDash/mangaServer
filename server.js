@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.json({ Error: "user not authorized", token });
+    return res.json({ Error: req, token });
   } else {
     jwt.verify(token, process.env.KEY_BRANCE_JT, (err, decoded) => {
       if (err) {
