@@ -10,6 +10,7 @@ const mangaWeb = async (values) => {
   ];
   let totalChapterD = 0;
   await scrapeTotal(values.websiteName).then((d) => {
+    console.log(d);
     valuesArray.push(d.totalChapters);
     valuesArray.push(d.firstChapter);
     valuesArray.push(d.lastChapter);
@@ -24,7 +25,7 @@ const mangaWeb = async (values) => {
     return message;
   }
 
-  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaClass\`,\`totalChapter\`,\`firstChapter\`,\`lastChapter\`)VALUES (?, ?, ?, ?, ?, ? , ? , ?)`;
+  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaClass\`,\`totalChapter\`,\`firstChapter\`,\`lastChapter\`) VALUES (?, ?, ?, ?, ?, ? ,?)`;
 
   try {
     const result = await new Promise((resolve, reject) => {
@@ -45,6 +46,7 @@ const mangaWeb = async (values) => {
       return "check the database";
     }
   } catch (error) {
+    console.log(error);
     const message = `error while inserting to database`;
     return message;
   }
