@@ -94,7 +94,7 @@ app.get("/allManga", async (req, res) => {
 // allChapters
 
 app.post("/allChapters", async (req, res) => {
-  const url = req.body;
+  const url = req.body.link;
   try {
     const data = await scrapeLinks(url);
     if (!data || data.length <= 0) {
