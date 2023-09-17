@@ -81,8 +81,8 @@ app.get("/allManga", async (req, res) => {
     const data = await getAllManga();
 
     if (!data || data.length === 0) {
-      console.log("entered empty data");
-      return res.status(400).json({ error: "Invalid request data." });
+      console.log("no data in database");
+      return res.status(400).json({ error: "empty database" });
     }
 
     res.status(200).json({ result: data });
