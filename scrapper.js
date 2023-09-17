@@ -129,7 +129,8 @@ const scrapeLinks = async (url) => {
       return "failed to load chapters";
     }
   } catch (error) {
-    console.log(error);
+    console.log("error");
+    console.log(url);
   }
 };
 

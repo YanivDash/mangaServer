@@ -94,10 +94,10 @@ app.get("/allManga", async (req, res) => {
 // allChapters
 
 app.post("/allChapters", async (req, res) => {
-  const link = req.body.data;
+  const url = req.body;
   try {
-    const data = await scrapeLinks(link);
-    if (data.length <= 0) {
+    const data = await scrapeLinks(url);
+    if (!data || data.length <= 0) {
       console.log(`no chapter for this ${link}`);
       return res.status(400).json({ error: link });
     }
