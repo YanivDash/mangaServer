@@ -100,7 +100,7 @@ app.post("/allChapters", async (req, res) => {
     const data = await scrapeLinks(link);
     if (data.length <= 0) {
       console.log(`no chapter for this ${link}`);
-      return res.status(400).json({ error: "empty" });
+      return res.status(400).json({ error: link });
     }
 
     res.status(200).json({ result: data });
