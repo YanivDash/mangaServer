@@ -94,9 +94,8 @@ app.get("/allManga", async (req, res) => {
 // allChapters
 
 app.post("/allChapters", async (req, res) => {
+  const link = req.body.data;
   try {
-    const link = req.body.data;
-
     const data = await scrapeLinks(link);
     if (data.length <= 0) {
       console.log(`no chapter for this ${link}`);
@@ -106,7 +105,6 @@ app.post("/allChapters", async (req, res) => {
     res.status(200).json({ result: data });
   } catch (error) {
     console.log(link);
-    console.log(data);
     console.error("Error");
     res.status(500).json({ error: "An error occurred." });
   }
