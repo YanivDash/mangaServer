@@ -80,17 +80,21 @@ const scrapeTotal = async (url) => {
     }
 
     if (data.length > 3) {
-      const totalChapters = data.length + 1;
-      const firstChapter = data[data.length - 1];
-      const lastChapter = data[0];
-      return { totalChapters, firstChapter, lastChapter };
+      console.log({
+        totalChapters: data.length + 1,
+        firstChapter: data[data.length - 1],
+        lastChapter: data[0],
+      });
+      return {
+        totalChapters: data.length + 1,
+        firstChapter: data[data.length - 1],
+        lastChapter: data[0],
+      };
     } else {
       return "failed to load chapters";
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    return;
   }
 };
 
