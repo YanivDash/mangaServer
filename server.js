@@ -104,7 +104,7 @@ app.post("/allChapters", async (req, res) => {
 
     res.status(200).json({ result: data });
   } catch (error) {
-    console.log(link);
+    console.log(url);
     console.error("Error");
     res.status(500).json({ error: "An error occurred." });
   }
