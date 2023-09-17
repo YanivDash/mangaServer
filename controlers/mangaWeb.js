@@ -1,43 +1,48 @@
 import db from "../database/dbConnection.js";
-import { scrapTotal } from "../scrapper.js";
+import { scrapeTotal } from "../scrapper.js";
+
 const mangaWeb = async (values) => {
   const valuesArray = [
     values.websiteName,
     values.mangaName,
     values.mangaCover,
-    values.mangaLink,
     values.mangaClass,
   ];
   let totalChapterD = 0;
-  await scrapTotal(values.mangaLink, values.mangaClass).then((d) => {
-    valuesArray.push(d);
-    totalChapterD = d;
+  await scrapeTotal(values.websiteName).then((d) => {
+    valuesArray.push(d.totalChapters);
+    valuesArray.push(d.firstChapter);
+    valuesArray.push(d.lastChapter);
+    totalChapterD = d.totalChapters;
   });
 
   let message;
 
-  if (totalChapterD < -1) {
+  if (totalChapterD < -1 || totalChapterD > 5500) {
     message = "could not scrape total chapter";
     console.log(message);
     return message;
   }
 
-  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaLink\`, \`mangaClass\`,\`totalChapter\`)VALUES (?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaClass\`,\`totalChapter\`,\`firstChapter\`,\`lastChapter\`)VALUES (?, ?, ?, ?, ?, ? , ? , ?)`;
 
   try {
     const result = await new Promise((resolve, reject) => {
       db.query(sql, valuesArray, (err, result) => {
-        if (result) {
-          resolve(result);
-        } else {
+        if (err) {
           reject("error");
+        } else {
+          resolve(result);
         }
       });
     });
 
     if (result) {
       const message = `successfully added to dataBase`;
+      console.log(result);
       return message;
+    } else {
+      return "check the database";
     }
   } catch (error) {
     const message = `error while inserting to database`;
