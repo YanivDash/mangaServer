@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { scraper, updateChapter } from "./scrapper.js";
+import { scraper, updateChapter, scrapeLinks } from "./scrapper.js";
 import mangaWeb from "./controlers/mangaWeb.js";
 import getAllManga from "./controlers/getAllManga.js";
 import incrementViews from "./controlers/incrementViews.js";
@@ -83,6 +83,24 @@ app.get("/allManga", async (req, res) => {
     if (!data || data.length === 0) {
       console.log("no data in database");
       return res.status(400).json({ error: "empty database" });
+    }
+
+    res.status(200).json({ result: data });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "An error occurred." });
+  }
+});
+// allChapters
+
+app.post("/allChapters", async (req, res) => {
+  try {
+    const link = req.body;
+    const data = await scrapeLinks();
+
+    if (!data || data.length === 0) {
+      console.log(`no chapter for this ${link}`);
+      return res.status(400).json({ error: "empty" });
     }
 
     res.status(200).json({ result: data });

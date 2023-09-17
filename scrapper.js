@@ -98,6 +98,41 @@ const scrapeTotal = async (url) => {
   }
 };
 
+const scrapeLinks = async (url) => {
+  const elemClass = "a[href*=chapter]";
+  let data = [];
+
+  try {
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+    const totalLink = $(elemClass);
+    totalLink.each(async (index, element) => {
+      const link = $(element).attr("href");
+      data.push(link);
+    });
+
+    data = Array.from(new Set(data));
+
+    let match = data[1].match(/(\d+)(?!.*\d)/);
+    if (match) {
+      function extractNumberFromLink(link) {
+        const match = link.match(/(\d+)(?!.*\d)/); // Match the last sequence of digits
+        return match ? parseInt(match[1]) : Infinity; // Use Infinity for links without a number
+      }
+      data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+    }
+
+    if (data.length > 3) {
+      console.log(data);
+      return data;
+    } else {
+      return "failed to load chapters";
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   let currentTotalChapter = 0;
   const regex = /chapterNumberHere/;
@@ -136,7 +171,7 @@ const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   console.log({ total: currentTotalChapter });
   return currentTotalChapter;
 };
-export { scraper, scrapeTotal, updateChapter };
+export { scraper, scrapeTotal, scrapeLinks, updateChapter };
 
 // const scraper = async (url, chapClass) => {
 //   const data = [];
