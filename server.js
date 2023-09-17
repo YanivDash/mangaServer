@@ -18,9 +18,6 @@ const port = process.env.PORT || process.env.DB_PORT;
 
 const app = express();
 app.use(express.json());
-const salt = 10;
-
-app.use(express.json());
 
 app.use(
   cors({
