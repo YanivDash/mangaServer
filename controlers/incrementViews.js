@@ -9,16 +9,33 @@ const incrementViews = async (values) => {
   WHERE id = ${id};
   `;
 
-  db.query(sql, (err, result) => {
-    db.release();
-    if (result) {
-      const message = "succesfull";
-      return message;
-    } else {
-      console.log(err);
-      const message = "error";
-      return message;
+  // db.query(sql, (err, result) => {
+
+  //   if (result) {
+  //     const message = "succesfull";
+  //     return message;
+  //   } else {
+  //     console.log(err);
+  //     const message = "error";
+  //     return message;
+  //   }
+  // });
+
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      return reject(err);
     }
+    connection.query(sql, (error, result) => {
+      connection.release();
+
+      if (error) {
+        console.error("Error executing the query:", error);
+        return reject(error);
+      }
+      const message = "incremented";
+      resolve(message);
+    });
   });
 };
 

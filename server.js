@@ -139,36 +139,73 @@ app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
 
-  db.query(sql, req.body.email.toString(), (err, data) => {
-    db.release();
-    if (err) return res.json({ Error: "Login error in server" });
+  // db.query(sql, req.body.email.toString(), (err, data) => {
+  //   if (err) return res.json({ Error: "Login error in server" });
 
-    if (data.length > 0) {
-      bcrypt.compare(
-        req.body.password.toString(),
-        data[0].password,
-        (err, response) => {
-          if (err) return res.json({ Error: "password compare error" });
-          if (response) {
-            const name = data[0].name;
-            const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
-              expiresIn: "1d",
-            });
-            // res.cookie("token", "cokie is here", {
-            //   httpOnly: true,
-            //   maxAge: 3600000 * 5,
-            //   secure: true,
-            //   sameSite: "none",
-            // });
-            return res.json({ Status: "success", cookie: token });
-          } else {
-            return res.json({ Error: "password not matched" });
-          }
-        }
-      );
-    } else {
-      return res.json({ Error: "email does not exist" });
+  //   if (data.length > 0) {
+  //     bcrypt.compare(
+  //       req.body.password.toString(),
+  //       data[0].password,
+  //       (err, response) => {
+  //         if (err) return res.json({ Error: "password compare error" });
+  //         if (response) {
+  //           const name = data[0].name;
+  //           const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
+  //             expiresIn: "1d",
+  //           });
+  //           // res.cookie("token", "cokie is here", {
+  //           //   httpOnly: true,
+  //           //   maxAge: 3600000 * 5,
+  //           //   secure: true,
+  //           //   sameSite: "none",
+  //           // });
+  //           return res.json({ Status: "success", cookie: token });
+  //         } else {
+  //           return res.json({ Error: "password not matched" });
+  //         }
+  //       }
+  //     );
+  //   } else {
+  //     return res.json({ Error: "email does not exist" });
+  //   }
+  // });
+
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      return reject(err);
     }
+    connection.query(sql, (error, data) => {
+      connection.release();
+
+      if (error) return res.json({ Error: "Login error in server" });
+      if (data.length > 0) {
+        bcrypt.compare(
+          req.body.password.toString(),
+          data[0].password,
+          (err, response) => {
+            if (err) return res.json({ Error: "password compare error" });
+            if (response) {
+              const name = data[0].name;
+              const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
+                expiresIn: "1d",
+              });
+              // res.cookie("token", "cokie is here", {
+              //   httpOnly: true,
+              //   maxAge: 3600000 * 5,
+              //   secure: true,
+              //   sameSite: "none",
+              // });
+              return res.json({ Status: "success", cookie: token });
+            } else {
+              return res.json({ Error: "email or password incorrect" });
+            }
+          }
+        );
+      } else {
+        return res.json({ Error: "password or email incorrect" });
+      }
+    });
   });
 });
 

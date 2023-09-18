@@ -29,13 +29,29 @@ const mangaWeb = async (values) => {
 
   try {
     const result = await new Promise((resolve, reject) => {
-      db.query(sql, valuesArray, (err, result) => {
-        db.release();
+      // db.query(sql, valuesArray, (err, result) => {
+      //   db.release();
+      //   if (err) {
+      //     reject("error");
+      //   } else {
+      //     resolve(result);
+      //   }
+      // });
+      db.getConnection((err, connection) => {
         if (err) {
-          reject("error");
-        } else {
-          resolve(result);
+          console.error("Error getting database connection:", err);
+          return reject(err);
         }
+        connection.query(sql, (error, result) => {
+          connection.release();
+
+          if (error) {
+            console.error("Error executing the query:", error);
+            return reject(error);
+          }
+
+          resolve(result);
+        });
       });
     });
 
