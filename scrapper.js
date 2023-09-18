@@ -173,8 +173,6 @@ const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   return currentTotalChapter;
 };
 
-scraper();
-
 export { scraper, scrapeTotal, scrapeLinks, updateChapter };
 
 // const scraper = async (url, chapClass) => {
