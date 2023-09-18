@@ -12,14 +12,31 @@ const db = mysql.createConnection({
 db.connect(function (err) {
   if (err) {
     console.log("error when connecting to db:", err);
-    setTimeout(db, 2000);
+    setTimeout(function () {
+      db.connect(function (err) {
+        if (err) {
+          console.log("Error while reconnecting:", err);
+        } else {
+          console.log("Reconnected to the database");
+        }
+      });
+    }, 2000);
+  } else {
+    console.log("Connected to the database");
   }
 });
 
 db.on("error", function (err) {
   console.log("db error", err);
   if (err.code === "PROTOCOL_CONNECTION_LOST") {
-    db;
+    // Attempt to reconnect
+    db.connect(function (err) {
+      if (err) {
+        console.log("Error while reconnecting:", err);
+      } else {
+        console.log("Reconnected to the database");
+      }
+    });
   } else {
     throw err;
   }
