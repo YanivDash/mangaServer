@@ -15,6 +15,7 @@ function createDatabaseConnection() {
   db.connect((err) => {
     if (err) {
       console.error("Error connecting to the database:", err);
+      db.end();
       // Handle the connection error, such as attempting to reconnect
       handleConnectionError();
     } else {
@@ -25,6 +26,7 @@ function createDatabaseConnection() {
   db.on("error", (err) => {
     console.error("Database error:", err);
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      db.end();
       // Handle the lost connection, such as attempting to reconnect
       handleConnectionError();
     } else {
