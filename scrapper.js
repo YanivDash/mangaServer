@@ -115,13 +115,24 @@ const scrapeLinks = async (url) => {
     data = data.reverse();
 
     let match = data[1].match(/(\d+)(?!.*\d)/);
+
     if (match) {
-      function extractNumberFromLink(link) {
-        const match = link.match(/chapter[-\s]*([\d]+)/); // Match the last sequence of digits
-        return match ? parseInt(match[1]) : Infinity; // Use Infinity for links without a number
-      }
-      data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+      const regex = /chapter-(\d+)/;
+      data.sort((a, b) => {
+        const numberA = parseInt((a.match(regex) || [])[1], 10);
+        const numberB = parseInt((b.match(regex) || [])[1], 10);
+
+        return numberB - numberA;
+      });
     }
+
+    // if (match) {
+    //   function extractNumberFromLink(link) {
+    //     const match = link.match(/chapter[-\s]*([\d]+)/); // Match the last sequence of digits
+    //     return match ? parseInt(match[1]) : Infinity; // Use Infinity for links without a number
+    //   }
+    //   data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+    // }
 
     if (data.length > 3) {
       console.log(data);

@@ -15,9 +15,14 @@ function createDatabaseConnection() {
   db.connect((err) => {
     if (err) {
       console.error("Error connecting to the database:", err);
-      db.end();
-      // Handle the connection error, such as attempting to reconnect
-      handleConnectionError();
+      if (err.code === "PROTOCOL_CONNECTION_LOST") {
+        handleConnectionError();
+      } else if (err.code === "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR") {
+        handleConnectionError();
+        console.error("Cannot enqueue query after fatal error");
+      } else {
+        throw err;
+      }
     } else {
       console.log("Connected to the database");
     }
