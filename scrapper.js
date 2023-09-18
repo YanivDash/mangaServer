@@ -1,6 +1,8 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
+console.log("error in this scrapper file");
+
 const scraper = async (url, elemClass) => {
   let data = [];
   let currentIndex = 0;

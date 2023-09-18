@@ -15,14 +15,14 @@ db.connect(function (err) {
     setTimeout(db, 2000);
   }
 });
-console.log("error is here");
-// db.on("error", function (err) {
-//   console.log("db error", err);
-//   if (err.code === "PROTOCOL_CONNECTION_LOST") {
-//     db;
-//   } else {
-//     throw err;
-//   }
-// });
+
+db.on("error", function (err) {
+  console.log("db error", err);
+  if (err.code === "PROTOCOL_CONNECTION_LOST") {
+    db;
+  } else {
+    throw err;
+  }
+});
 
 export default db;
