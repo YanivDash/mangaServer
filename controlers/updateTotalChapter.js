@@ -19,12 +19,10 @@ const updateTotalChapter = async (values) => {
   db.query(sql, (err, result) => {
     if (result) {
       const message = `${id}:${totalChapter}`;
-      db.end();
       return message;
     } else {
       console.log(err);
       const message = "error";
-      db.end();
       return message;
     }
   });

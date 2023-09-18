@@ -6,11 +6,25 @@ const getAllManga = () => {
     db.query(sql, (err, result) => {
       if (err) {
         console.error(err);
+        if (connection && connection.state !== "disconnected") {
+          connection.end((err) => {
+            if (err) {
+              console.error("Error closing the database connection:", err);
+            }
+            console.log("Database connection closed");
+          });
+        }
         reject(err);
-        db.end();
       } else {
+        if (connection && connection.state !== "disconnected") {
+          connection.end((err) => {
+            if (err) {
+              console.error("Error closing the database connection:", err);
+            }
+            console.log("Database connection closed");
+          });
+        }
         resolve(result);
-        db.end();
       }
     });
   });

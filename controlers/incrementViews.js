@@ -12,12 +12,10 @@ const incrementViews = async (values) => {
   db.query(sql, (err, result) => {
     if (result) {
       const message = "succesfull";
-      db.end();
       return message;
     } else {
       console.log(err);
       const message = "error";
-      db.end();
       return message;
     }
   });

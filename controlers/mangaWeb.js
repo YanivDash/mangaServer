@@ -41,7 +41,6 @@ const mangaWeb = async (values) => {
     if (result) {
       const message = `successfully added to dataBase`;
       console.log(result);
-      db.end();
       return message;
     } else {
       return "check the database";
@@ -49,7 +48,6 @@ const mangaWeb = async (values) => {
   } catch (error) {
     console.log(error);
     const message = `error while inserting to database`;
-    db.end();
     return message;
   }
 
