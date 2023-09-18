@@ -3,14 +3,32 @@ import db from "../database/dbConnection.js";
 const getAllManga = () => {
   return new Promise((resolve, reject) => {
     const sql = `SELECT * FROM mangalist`;
-    db.query(sql, (error, result) => {
-      db.release();
-      if (error) {
-        console.error("Error executing the query:", error);
-        reject(error);
-      } else {
-        resolve(result);
+    // db.query(sql, (error, result) => {
+    //   db.release();
+    //   if (error) {
+    //     console.error("Error executing the query:", error);
+    //     reject(error);
+    //   } else {
+    //     resolve(result);
+    //   }
+    // });
+    db.getConnection((err, connection) => {
+      if (err) {
+        console.error("Error getting database connection:", err);
+        return reject(err);
       }
+
+      connection.query(sql, (error, result) => {
+        // Release the connection back to the pool
+        connection.release();
+
+        if (error) {
+          console.error("Error executing the query:", error);
+          return reject(error);
+        }
+
+        resolve(result);
+      });
     });
   });
 };
