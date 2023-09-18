@@ -20,11 +20,9 @@ const scraper = async (url, elemClass) => {
     if (currentIndex > 3) {
       searchRegex = `img`;
     }
-
-    const response = await axios.get(url);
-    const $ = cheerio.load(response.data);
-
     try {
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
       const images = $(searchRegex);
       images.each(async (index, element) => {
         const imageUrl = $(element).attr("src");
@@ -114,11 +112,12 @@ const scrapeLinks = async (url) => {
     });
 
     data = Array.from(new Set(data));
+    data = data.reverse();
 
     let match = data[1].match(/(\d+)(?!.*\d)/);
     if (match) {
       function extractNumberFromLink(link) {
-        const match = link.match(/(\d+)(?!.*\d)/); // Match the last sequence of digits
+        const match = link.match(/chapter[-\s]*([\d]+)/); // Match the last sequence of digits
         return match ? parseInt(match[1]) : Infinity; // Use Infinity for links without a number
       }
       data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
