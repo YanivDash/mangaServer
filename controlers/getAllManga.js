@@ -6,8 +6,8 @@ const getAllManga = () => {
     db.query(sql, (err, result) => {
       if (err) {
         console.error(err);
-        if (connection && connection.state !== "disconnected") {
-          connection.end((err) => {
+        if (db && db.state !== "disconnected") {
+          db.end((err) => {
             if (err) {
               console.error("Error closing the database connection:", err);
             }
@@ -16,8 +16,8 @@ const getAllManga = () => {
         }
         reject(err);
       } else {
-        if (connection && connection.state !== "disconnected") {
-          connection.end((err) => {
+        if (db && db.state !== "disconnected") {
+          db.end((err) => {
             if (err) {
               console.error("Error closing the database connection:", err);
             }
