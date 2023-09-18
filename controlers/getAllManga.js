@@ -7,8 +7,10 @@ const getAllManga = () => {
       if (err) {
         console.error(err);
         reject(err);
+        db.end();
       } else {
         resolve(result);
+        db.end();
       }
     });
   });

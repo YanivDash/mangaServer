@@ -153,14 +153,10 @@ app.post("/login", (req, res) => {
             const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
               expiresIn: "1d",
             });
-            // res.cookie("token", "cokie is here", {
-            //   httpOnly: true,
-            //   maxAge: 3600000 * 5,
-            //   secure: true,
-            //   sameSite: "none",
-            // });
+            db.end();
             return res.json({ Status: "success", cookie: token });
           } else {
+            db.end();
             return res.json({ Error: "password not matched" });
           }
         }
