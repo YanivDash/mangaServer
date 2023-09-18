@@ -31,10 +31,10 @@ const incrementViews = async (values) => {
 
       if (error) {
         console.error("Error executing the query:", error);
-        return reject(error);
+        return error;
       }
       const message = "incremented";
-      resolve(message);
+      return message;
     });
   });
 };

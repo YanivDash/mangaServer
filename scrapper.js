@@ -20,9 +20,11 @@ const scraper = async (url, elemClass) => {
     if (currentIndex > 3) {
       searchRegex = `img`;
     }
+
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
     try {
-      const response = await axios.get(url);
-      const $ = cheerio.load(response.data);
       const images = $(searchRegex);
       images.each(async (index, element) => {
         const imageUrl = $(element).attr("src");
@@ -99,7 +101,6 @@ const scrapeTotal = async (url) => {
 };
 
 const scrapeLinks = async (url) => {
-  // url = "https://tomodachimanga.com/";
   const elemClass = "a[href*=chapter]";
   let data = [];
 
@@ -115,7 +116,6 @@ const scrapeLinks = async (url) => {
     data = Array.from(new Set(data));
 
     let match = data[1].match(/(\d+)(?!.*\d)/);
-
     if (match) {
       const regex = /chapter-(\d+)/;
 
@@ -142,11 +142,10 @@ const scrapeLinks = async (url) => {
       return "failed to load chapters";
     }
   } catch (error) {
-    console.log(error);
+    console.log("error");
     console.log(url);
   }
 };
-scrapeLinks();
 
 const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   let currentTotalChapter = 0;

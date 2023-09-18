@@ -19,7 +19,6 @@ const getAllManga = () => {
       }
 
       connection.query(sql, (error, result) => {
-        // Release the connection back to the pool
         connection.release();
 
         if (error) {
