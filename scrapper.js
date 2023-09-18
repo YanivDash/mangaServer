@@ -124,7 +124,7 @@ const scrapeLinks = async (url) => {
         return Math.max(...matches.map((match) => parseInt(match, 10)));
       };
 
-      links.sort((a, b) => biggestNumber(b) - biggestNumber(a));
+      data.sort((a, b) => biggestNumber(b) - biggestNumber(a));
     }
 
     // if (match) {
