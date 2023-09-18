@@ -118,9 +118,9 @@ const scrapeLinks = async (url) => {
 
     if (match) {
       const regex = /chapter-(\d+)/;
+
       const extractLargestChapterNumber = (link) => {
         const matches = link.match(regex);
-        if (!matches) return -1; // Return -1 for links without chapter numbers
         const numericValues = matches.map((match) => parseInt(match, 10));
         return numericValues.length > 0 ? Math.max(...numericValues) : -1;
       };
@@ -129,23 +129,9 @@ const scrapeLinks = async (url) => {
         const largestChapterNumberA = extractLargestChapterNumber(a);
         const largestChapterNumberB = extractLargestChapterNumber(b);
 
-        // Compare the largest chapter numbers, treating -1 as a special case
-        if (largestChapterNumberA === -1 && largestChapterNumberB === -1)
-          return 0;
-        if (largestChapterNumberA === -1) return 1;
-        if (largestChapterNumberB === -1) return -1;
-
         return largestChapterNumberB - largestChapterNumberA;
       });
     }
-
-    // if (match) {
-    //   function extractNumberFromLink(link) {
-    //     const match = link.match(/chapter[-\s]*([\d]+)/); // Match the last sequence of digits
-    //     return match ? parseInt(match[1]) : Infinity; // Use Infinity for links without a number
-    //   }
-    //   data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
-    // }
 
     if (data.length > 3) {
       console.log(data);
