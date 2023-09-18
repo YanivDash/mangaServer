@@ -5,7 +5,7 @@ dotenv.config();
 let db;
 
 function createDatabaseConnection() {
-  db = mysql.createConnection({
+  var db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -31,7 +31,6 @@ function createDatabaseConnection() {
   db.on("error", (err) => {
     console.error("Database error:", err);
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
-      db.end();
       // Handle the lost connection, such as attempting to reconnect
       handleConnectionError();
     } else {
@@ -42,7 +41,7 @@ function createDatabaseConnection() {
 
 function handleConnectionError() {
   // Close the current connection
-  db.end();
+  db.destroy();
 
   // Attempt to create a new connection and retry the operation
   createDatabaseConnection();

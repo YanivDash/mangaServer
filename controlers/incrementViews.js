@@ -10,6 +10,7 @@ const incrementViews = async (values) => {
   `;
 
   db.query(sql, (err, result) => {
+    db.release();
     if (result) {
       const message = "succesfull";
       return message;

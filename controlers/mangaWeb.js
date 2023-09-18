@@ -30,6 +30,7 @@ const mangaWeb = async (values) => {
   try {
     const result = await new Promise((resolve, reject) => {
       db.query(sql, valuesArray, (err, result) => {
+        db.release();
         if (err) {
           reject("error");
         } else {

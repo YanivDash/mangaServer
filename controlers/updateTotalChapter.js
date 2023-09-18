@@ -17,6 +17,7 @@ const updateTotalChapter = async (values) => {
   }
 
   db.query(sql, (err, result) => {
+    db.release();
     if (result) {
       const message = `${id}:${totalChapter}`;
       return message;

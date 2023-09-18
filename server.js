@@ -140,6 +140,7 @@ app.post("/login", (req, res) => {
   const sql = `SELECT * FROM admins WHERE email = ?`;
 
   db.query(sql, req.body.email.toString(), (err, data) => {
+    db.release();
     if (err) return res.json({ Error: "Login error in server" });
 
     if (data.length > 0) {

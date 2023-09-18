@@ -99,7 +99,7 @@ const scrapeTotal = async (url) => {
 };
 
 const scrapeLinks = async (url) => {
-  url = "https://tomodachimanga.com/";
+  // url = "https://tomodachimanga.com/";
   const elemClass = "a[href*=chapter]";
   let data = [];
 
@@ -121,7 +121,9 @@ const scrapeLinks = async (url) => {
 
       const extractLargestChapterNumber = (link) => {
         const matches = link.match(regex);
+        console.log(matches);
         const numericValues = matches.map((match) => parseInt(match, 10));
+        if (numericValues[1] == 0) numericValues[1] = -1;
         return numericValues.length > 0 ? Math.max(...numericValues) : -1;
       };
 
