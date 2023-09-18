@@ -118,12 +118,13 @@ const scrapeLinks = async (url) => {
 
     if (match) {
       const regex = /chapter-(\d+)/;
-      data.sort((a, b) => {
-        const numberA = parseInt((a.match(regex) || [])[1], 10);
-        const numberB = parseInt((b.match(regex) || [])[1], 10);
+      const biggestNumber = (link) => {
+        const matches = link.match(regex);
+        if (!matches) return -1; // Return -1 if no match found
+        return Math.max(...matches.map((match) => parseInt(match, 10)));
+      };
 
-        return numberB - numberA;
-      });
+      links.sort((a, b) => biggestNumber(b) - biggestNumber(a));
     }
 
     // if (match) {
