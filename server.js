@@ -18,6 +18,13 @@ const port = process.env.PORT || process.env.DB_PORT;
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://elegant-daifuku-1dd9e4.netlify.app"
+  );
+  next();
+});
 
 app.use(
   cors({
