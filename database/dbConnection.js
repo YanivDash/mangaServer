@@ -5,7 +5,7 @@ dotenv.config();
 let db;
 
 function createDatabaseConnection() {
-  var db = mysql.createPool({
+  db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
