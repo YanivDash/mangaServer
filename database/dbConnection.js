@@ -4,7 +4,7 @@ dotenv.config();
 
 let db;
 
-function createDatabaseConnection() {
+function handleDisconnect() {
   db = mysql.createConnection({
     host: process.env.HOST,
     user: process.env.USER,
@@ -12,37 +12,27 @@ function createDatabaseConnection() {
     database: process.env.DATABASE,
   });
 
-  db.connect((err) => {
+  db.connect(function (err) {
     if (err) {
-      console.error("Error connecting to the database:", err);
-      // Handle the connection error, such as attempting to reconnect
-      handleConnectionError();
+      console.log("error when connecting to db:", err);
+      setTimeout(handleDisconnect, 2000);
     } else {
       console.log("Connected to the database");
     }
   });
 
-  db.on("error", (err) => {
-    console.error("Database error:", err);
+  db.on("error", function (err) {
+    console.log("db error", err);
     if (err.code === "PROTOCOL_CONNECTION_LOST") {
-      // Handle the lost connection, such as attempting to reconnect
-      handleConnectionError();
+      console.log("Reconnecting to the database...");
+      handleDisconnect();
     } else {
       throw err;
     }
   });
 }
 
-function handleConnectionError() {
-  // Close the current connection
-  db.end();
-
-  // Attempt to create a new connection and retry the operation
-  createDatabaseConnection();
-}
-
-// Initialize the database connection
-createDatabaseConnection();
+handleDisconnect();
 
 export default db;
 
