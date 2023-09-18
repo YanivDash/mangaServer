@@ -2,8 +2,6 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
-  url = "https://bleach-read.com/manga/bleach-chapter-680/";
-  elemClass = "jpg";
   let data = [];
   let currentIndex = 0;
 
