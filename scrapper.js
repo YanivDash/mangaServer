@@ -99,6 +99,7 @@ const scrapeTotal = async (url) => {
 };
 
 const scrapeLinks = async (url) => {
+  url = "https://tomodachimanga.com/";
   const elemClass = "a[href*=chapter]";
   let data = [];
 
@@ -112,18 +113,30 @@ const scrapeLinks = async (url) => {
     });
 
     data = Array.from(new Set(data));
-    data = data.reverse();
 
     let match = data[1].match(/(\d+)(?!.*\d)/);
 
     if (match) {
       const regex = /chapter-(\d+)/;
-      const numericPart = (link) => {
+      const extractLargestChapterNumber = (link) => {
         const matches = link.match(regex);
-        return matches ? parseInt(matches[1], 10) : -Infinity; // Return -Infinity for links without chapter numbers
+        if (!matches) return -1; // Return -1 for links without chapter numbers
+        const numericValues = matches.map((match) => parseInt(match, 10));
+        return numericValues.length > 0 ? Math.max(...numericValues) : -1;
       };
 
-      data.sort((a, b) => numericPart(b) - numericPart(a));
+      data.sort((a, b) => {
+        const largestChapterNumberA = extractLargestChapterNumber(a);
+        const largestChapterNumberB = extractLargestChapterNumber(b);
+
+        // Compare the largest chapter numbers, treating -1 as a special case
+        if (largestChapterNumberA === -1 && largestChapterNumberB === -1)
+          return 0;
+        if (largestChapterNumberA === -1) return 1;
+        if (largestChapterNumberB === -1) return -1;
+
+        return largestChapterNumberB - largestChapterNumberA;
+      });
     }
 
     // if (match) {
@@ -141,10 +154,11 @@ const scrapeLinks = async (url) => {
       return "failed to load chapters";
     }
   } catch (error) {
-    console.log("error");
+    console.log(error);
     console.log(url);
   }
 };
+scrapeLinks();
 
 const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   let currentTotalChapter = 0;
