@@ -2,6 +2,8 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
+  url = "https://bleach-read.com/manga/bleach-chapter-680/";
+  elemClass = "jpg";
   let data = [];
   let currentIndex = 0;
 
@@ -14,9 +16,9 @@ const scraper = async (url, elemClass) => {
 
   while (true) {
     const searchClass = imgType[currentIndex];
-    let searchRegex = `img[src*=${searchClass}]`;
+    let searchRegex = `img[src$=${searchClass}]`;
     if (currentIndex > 3) {
-      searchRegex = `img[src]`;
+      searchRegex = `img`;
     }
 
     const response = await axios.get(url);
@@ -172,6 +174,9 @@ const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   console.log({ total: currentTotalChapter });
   return currentTotalChapter;
 };
+
+scraper();
+
 export { scraper, scrapeTotal, scrapeLinks, updateChapter };
 
 // const scraper = async (url, chapClass) => {
