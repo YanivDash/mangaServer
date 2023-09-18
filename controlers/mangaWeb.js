@@ -42,7 +42,7 @@ const mangaWeb = async (values) => {
           console.error("Error getting database connection:", err);
           return reject(err);
         }
-        connection.query(sql, (error, result) => {
+        connection.query(sql, valuesArray, (error, result) => {
           connection.release();
 
           if (error) {
