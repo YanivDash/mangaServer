@@ -83,7 +83,7 @@ const scrapeTotal = async (url) => {
 
     if (data.length > 3) {
       console.log({
-        totalChapters: data.length + 1,
+        totalChapters: data.length,
         firstChapter: data[data.length - 1],
         lastChapter: data[0],
       });
@@ -102,6 +102,8 @@ const scrapeTotal = async (url) => {
 
 const scrapeLinks = async (url) => {
   const elemClass = "a[href*=chapter]";
+  url =
+    "https://asuracomics.com/manga/9625261433-martial-god-regressed-to-level-2/";
   let data = [];
 
   try {
@@ -121,7 +123,7 @@ const scrapeLinks = async (url) => {
 
       const extractLargestChapterNumber = (link) => {
         const matches = link.match(regex);
-        console.log(matches);
+
         const numericValues = matches.map((match) => parseInt(match, 10));
         if (numericValues[1] == 0) numericValues[1] = -1;
         return numericValues.length > 0 ? Math.max(...numericValues) : -1;
@@ -146,6 +148,8 @@ const scrapeLinks = async (url) => {
     console.log(url);
   }
 };
+
+scrapeLinks();
 
 const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
   let currentTotalChapter = 0;
