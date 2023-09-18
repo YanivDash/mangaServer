@@ -12,21 +12,21 @@ function createDatabaseConnection() {
     database: process.env.DB_DATABASE,
   });
 
-  db.connect((err) => {
-    if (err) {
-      console.error("Error connecting to the database:", err);
-      if (err.code === "PROTOCOL_CONNECTION_LOST") {
-        handleConnectionError();
-      } else if (err.code === "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR") {
-        handleConnectionError();
-        console.error("Cannot enqueue query after fatal error");
-      } else {
-        throw err;
-      }
-    } else {
-      console.log("Connected to the database");
-    }
-  });
+  // db.connect((err) => {
+  //   if (err) {
+  //     console.error("Error connecting to the database:", err);
+  //     if (err.code === "PROTOCOL_CONNECTION_LOST") {
+  //       handleConnectionError();
+  //     } else if (err.code === "PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR") {
+  //       handleConnectionError();
+  //       console.error("Cannot enqueue query after fatal error");
+  //     } else {
+  //       throw err;
+  //     }
+  //   } else {
+  //     console.log("Connected to the database");
+  //   }
+  // });
 
   db.on("error", (err) => {
     console.error("Database error:", err);
