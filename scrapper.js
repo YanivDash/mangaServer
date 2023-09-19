@@ -120,14 +120,17 @@ const scrapeLinks = async (url) => {
 
     data = Array.from(new Set(data));
 
+    let sortedFirstTen = data.slice(0, 20);
+    let sortedLastTen = data.slice(-20);
+
     firstTen.forEach((item) => {
-      if (!item in data) {
+      if (!item in sortedFirstTen && !item in sortedLastTen) {
         data.append(item);
       }
     });
 
     lastTen.forEach((item) => {
-      if (!item in data) {
+      if (!item in sortedFirstTen && !item in sortedLastTen) {
         data.push(item);
       }
     });
