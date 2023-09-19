@@ -250,17 +250,13 @@ const chapterUpdate = async () => {
     const data = await getAllManga();
 
     if (!data || data.length === 0) {
-      console.log("entered empty data");
+      console.log("no data found in database");
       return res.status(400).json({ error: "Invalid request data." });
     }
     data.forEach(async (element) => {
-      const { mangaClass, totalChapter, mangaLink, id } = element;
-      let newTotalChapter = await updateChapter(
-        mangaLink,
-        mangaClass,
-        totalChapter
-      );
-      let result = await updateTotalChapter({
+      const { id, websiteNAme, totalChapter } = element;
+      let newTotalChapter = await updateChapter(websiteNAme);
+      await updateTotalChapter({
         id,
         newTotalChapter,
         totalChapter,

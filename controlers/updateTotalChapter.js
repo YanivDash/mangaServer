@@ -27,22 +27,31 @@ const updateTotalChapter = async (values) => {
   //     return message;
   //   }
   // });
-  db.getConnection((err, connection) => {
-    if (err) {
-      console.error("Error getting database connection:", err);
-      return reject(err);
-    }
-    connection.query(sql, (error, result) => {
-      connection.release();
 
-      if (error) {
-        console.error("Error executing the query:", error);
-        return reject(error);
+  try {
+    db.getConnection((err, connection) => {
+      if (err) {
+        console.error("Error getting database connection:", err);
+        return reject(err);
       }
-      const message = `${id}:${totalChapter}`;
-      resolve(message);
+      connection.query(sql, (error, result) => {
+        connection.release();
+
+        if (error) {
+          console.error("Error executing the query:", error);
+          return reject(error);
+        }
+
+        const message = `${id}:${newTotalChapter}`;
+        resolve(message);
+        if (result) {
+          return message;
+        }
+      });
     });
-  });
+  } catch (error) {
+    console.log("error in updateTotalChapter");
+  }
 };
 
 export default updateTotalChapter;

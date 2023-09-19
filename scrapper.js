@@ -1,8 +1,6 @@
 import axios from "axios";
 import cheerio from "cheerio";
 
-console.log("error in this scrapper file");
-
 const scraper = async (url, elemClass) => {
   let data = [];
   let currentIndex = 0;
@@ -147,43 +145,28 @@ const scrapeLinks = async (url) => {
   }
 };
 
-const updateChapter = async (mangaLink, mangaClass, totalChapter) => {
-  let currentTotalChapter = 0;
-  const regex = /chapterNumberHere/;
-  let typeUrl = mangaLink.replace(regex, `8010268116`);
-  const typeRegex = /8010268116/;
+const updateChapter = async (url) => {
+  const elemClass = "a[href*=chapter]";
+  let data = [];
+  try {
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+    const totalLink = $(elemClass);
+    totalLink.each(async (index, element) => {
+      const link = $(element).attr("href");
+      data.push(link);
+    });
 
-  let leap = 10;
-  let newUrl = mangaLink.replace(regex, `${totalChapter}`);
+    data = Array.from(new Set(data));
 
-  let match = totalChapter;
-  let imageUrl;
-
-  while (true) {
-    try {
-      const response = await axios.get(newUrl);
-      const $ = cheerio.load(response.data);
-      const images = $(mangaClass);
-      imageUrl = $(images[0]).attr("src");
-    } catch (error) {
-      imageUrl = "";
-    }
-    let numNow = new RegExp(`${match}`);
-    if (imageUrl) {
-      newUrl = typeUrl.replace(typeRegex, `${match + leap}`);
-      match = match + leap;
-    } else if (leap === 10) {
-      newUrl = typeUrl.replace(typeRegex, `${match - 10}`);
-      leap = 1;
-      match = match - 10;
+    if (data.length > 1) {
+      return data.length;
     } else {
-      currentTotalChapter = match - 1;
-      break;
+      console.log("no chapter scraped in updatechapter scrapper.js");
     }
+  } catch (err) {
+    console.log(err);
   }
-
-  console.log({ total: currentTotalChapter });
-  return currentTotalChapter;
 };
 
 export { scraper, scrapeTotal, scrapeLinks, updateChapter };
