@@ -175,7 +175,7 @@ app.post("/login", (req, res) => {
       console.error("Error getting database connection:", err);
       return reject(err);
     }
-    connection.query(sql, (error, data) => {
+    connection.query(sql, req.body.email.toString(), (error, data) => {
       connection.release();
 
       if (error) return res.json({ Error: "Login error in server" });
