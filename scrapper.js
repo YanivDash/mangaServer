@@ -115,7 +115,22 @@ const scrapeLinks = async (url) => {
       data.push(link);
     });
 
+    let firstTen = data.slice(0, 10);
+    let lastTen = data.slice(-10);
+
     data = Array.from(new Set(data));
+
+    firstTen.forEach((item) => {
+      if (!item in data) {
+        data.append(item);
+      }
+    });
+
+    lastTen.forEach((item) => {
+      if (!item in data) {
+        data.push(item);
+      }
+    });
 
     if (data.length > 3) {
       console.log(data);
