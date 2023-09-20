@@ -21,14 +21,14 @@ app.use(express.json());
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://elegant-daifuku-1dd9e4.netlify.app"
+    "https://manganexus-library.netlify.app"
   );
   next();
 });
 
 app.use(
   cors({
-    origin: ["https://elegant-daifuku-1dd9e4.netlify.app"],
+    origin: ["https://manganexus-library.netlify.app"],
     methods: ["POST", "GET"],
     credentials: true,
   })
