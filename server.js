@@ -262,8 +262,8 @@ const chapterUpdate = async () => {
       let newTotalChapter = await updateChapter(websiteNAme);
       await updateTotalChapter({
         id,
-        newTotalChapter.updateTotalChapter,
-        newTotalChapter.hello,
+        newTotalChapter,
+        totalChapter,
       });
     });
   } catch (error) {

@@ -36,11 +36,7 @@ const updateTotalChapter = async (values) => {
       }
       connection.query(
         sql,
-        [
-          newTotalChapter.updateLatestChpter,
-          newTotalChapter.numberOfChapter,
-          id,
-        ],
+        [newTotalChapter[1], newTotalChapter[0], id],
         (error, result) => {
           connection.release();
 
