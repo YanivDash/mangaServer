@@ -6,7 +6,7 @@ const updateTotalChapter = async (values) => {
   const totalChapter = values.totalChapter;
   let sql;
 
-  if (newTotalChapter.updateTotalChapter > totalChapter) {
+  if (newTotalChapter.numberOfChapter > totalChapter) {
     sql = `UPDATE mangalist
     SET lastChapter = ?,
     totalChapter = ?,
@@ -38,7 +38,7 @@ const updateTotalChapter = async (values) => {
         sql,
         [
           newTotalChapter.updateLatestChpter,
-          newTotalChapter.updateTotalChapter,
+          newTotalChapter.numberOfChapter,
           id,
         ],
         (error, result) => {

@@ -171,7 +171,11 @@ const updateChapter = async (url) => {
     });
 
     if (data.length > 1) {
-      return { updateTotalChapter: data.length, updateLatestChpter: data[0] };
+      const result = {
+        numberOfChapter: data.length,
+        updateLatestChpter: data[0],
+      };
+      return result;
     } else {
       console.log("no chapter scraped in updatechapter scrapper.js");
     }
