@@ -226,7 +226,8 @@ app.post("/updateManga", (req, res) => {
 
   const sql = `UPDATE mangalist
   SET lastChapter = ?,
-  totalChapter = ?
+  totalChapter = ?,
+  dateUpdate = CURRENT_TIMESTAMP
   WHERE id = ?;`;
 
   console.log(sql);
@@ -261,8 +262,8 @@ const chapterUpdate = async () => {
       let newTotalChapter = await updateChapter(websiteNAme);
       await updateTotalChapter({
         id,
-        newTotalChapter,
-        totalChapter,
+        newTotalChapter.updateTotalChapter,
+        newTotalChapter.hello,
       });
     });
   } catch (error) {

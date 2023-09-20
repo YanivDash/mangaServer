@@ -157,10 +157,21 @@ const updateChapter = async (url) => {
       data.push(link);
     });
 
+    let firstTen = data.slice(0, 10);
+
     data = Array.from(new Set(data));
 
+    let sortedFirstTen = data.slice(0, 20);
+    let sortedLastTen = data.slice(-20);
+
+    firstTen.forEach((item) => {
+      if (!item in sortedFirstTen && !item in sortedLastTen) {
+        data.append(item);
+      }
+    });
+
     if (data.length > 1) {
-      return data.length;
+      return { updateTotalChapter: data.length, updateLatestChpter: data[0] };
     } else {
       console.log("no chapter scraped in updatechapter scrapper.js");
     }
@@ -168,7 +179,6 @@ const updateChapter = async (url) => {
     console.log(err);
   }
 };
-
 export { scraper, scrapeTotal, scrapeLinks, updateChapter };
 
 // const scraper = async (url, chapClass) => {

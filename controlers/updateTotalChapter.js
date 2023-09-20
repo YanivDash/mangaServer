@@ -6,12 +6,12 @@ const updateTotalChapter = async (values) => {
   const totalChapter = values.totalChapter;
   let sql;
 
-  if (newTotalChapter > totalChapter) {
+  if (newTotalChapter.updateTotalChapter > totalChapter) {
     sql = `UPDATE mangalist
-    SET totalChapter = ${newTotalChapter}, 
+    SET lastChapter = ?,
+    totalChapter = ?,
     dateUpdate = CURRENT_TIMESTAMP
-    WHERE id = ${id};
-    `;
+    WHERE id = ?;`;
   } else {
     return;
   }
@@ -34,20 +34,28 @@ const updateTotalChapter = async (values) => {
         console.error("Error getting database connection:", err);
         return reject(err);
       }
-      connection.query(sql, (error, result) => {
-        connection.release();
+      connection.query(
+        sql,
+        [
+          newTotalChapter.updateLatestChpter,
+          newTotalChapter.updateTotalChapter,
+          id,
+        ],
+        (error, result) => {
+          connection.release();
 
-        if (error) {
-          console.error("Error executing the query:", error);
-          return reject(error);
-        }
+          if (error) {
+            console.error("Error executing the query:", error);
+            return reject(error);
+          }
 
-        const message = `${id}:${newTotalChapter}`;
-        resolve(message);
-        if (result) {
-          return message;
+          const message = `${id}:${newTotalChapter}`;
+          resolve(message);
+          if (result) {
+            return message;
+          }
         }
-      });
+      );
     });
   } catch (error) {
     console.log("error in updateTotalChapter");
