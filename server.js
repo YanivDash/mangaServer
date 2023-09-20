@@ -225,9 +225,9 @@ app.post("/updateManga", (req, res) => {
   console.log(data);
 
   const sql = `UPDATE mangalist
-SET lastChapter = ${updateChap},
-totalChapter = ${updateNum}
-WHERE id = ${id};`;
+  SET lastChapter = ?,
+  totalChapter = ?
+  WHERE id = ?;`;
 
   console.log(sql);
   db.getConnection((err, connection) => {
@@ -235,7 +235,7 @@ WHERE id = ${id};`;
       console.error("Error getting database connection:", err);
       return reject(err);
     }
-    connection.query(sql, (error, result) => {
+    connection.query(sql, [updateChap, updateNum, id], (error, result) => {
       connection.release();
 
       if (error) {
