@@ -16,6 +16,8 @@ const updateTotalChapter = async (values) => {
     return;
   }
 
+  console.log("here");
+
   // db.query(sql, (err, result) => {
   //   db.release();
   //   if (result) {
@@ -54,7 +56,7 @@ const updateTotalChapter = async (values) => {
       );
     });
   } catch (error) {
-    console.log("error in updateTotalChapter");
+    console.log("error in updateTotalChapter", error);
   }
 };
 
