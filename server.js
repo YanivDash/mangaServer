@@ -272,7 +272,7 @@ const chapterUpdate = async () => {
   }
 };
 
-cron.schedule("40 23 * * *", () => {
+cron.schedule("43 23 * * *", () => {
   console.log("Running API request...");
   chapterUpdate();
 });
