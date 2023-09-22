@@ -139,37 +139,6 @@ app.post("/login", (req, res) => {
   console.log(req.body.email.toString());
   const sql = `SELECT * FROM admins WHERE email = ?`;
 
-  // db.query(sql, req.body.email.toString(), (err, data) => {
-  //   if (err) return res.json({ Error: "Login error in server" });
-
-  //   if (data.length > 0) {
-  //     bcrypt.compare(
-  //       req.body.password.toString(),
-  //       data[0].password,
-  //       (err, response) => {
-  //         if (err) return res.json({ Error: "password compare error" });
-  //         if (response) {
-  //           const name = data[0].name;
-  //           const token = jwt.sign({ name }, process.env.KEY_BRANCE_JT, {
-  //             expiresIn: "1d",
-  //           });
-  //           // res.cookie("token", "cokie is here", {
-  //           //   httpOnly: true,
-  //           //   maxAge: 3600000 * 5,
-  //           //   secure: true,
-  //           //   sameSite: "none",
-  //           // });
-  //           return res.json({ Status: "success", cookie: token });
-  //         } else {
-  //           return res.json({ Error: "password not matched" });
-  //         }
-  //       }
-  //     );
-  //   } else {
-  //     return res.json({ Error: "email does not exist" });
-  //   }
-  // });
-
   db.getConnection((err, connection) => {
     if (err) {
       console.error("Error getting database connection:", err);
@@ -253,13 +222,14 @@ const chapterUpdate = async () => {
   try {
     const data = await getAllManga();
 
-    if (!data || data.length === 0) {
+    if (!data || data.length <= 0) {
       console.log("no data found in database");
       return res.status(400).json({ error: "Invalid request data." });
     }
     data.forEach(async (element) => {
-      const { id, websiteNAme, totalChapter } = element;
-      let newTotalChapter = await updateChapter(websiteNAme);
+      const { id, websiteName, totalChapter } = element;
+      let newTotalChapter = await updateChapter(websiteName);
+
       await updateTotalChapter({
         id,
         newTotalChapter,
@@ -272,11 +242,11 @@ const chapterUpdate = async () => {
   }
 };
 
-cron.schedule("43 23 * * *", () => {
+cron.schedule("0 2 * * *", (err) => {
   console.log("Running API request...");
   chapterUpdate();
 });
 
-app.listen(port, () => {
+app.listen(4000, () => {
   console.log(`listening on port ${port}`);
 });

@@ -120,7 +120,7 @@ const scrapeLinks = async (url) => {
     console.log(url);
   }
 };
-scrapeLinks();
+
 const updateChapter = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];
@@ -152,7 +152,9 @@ const updateChapter = async (url) => {
       console.log("no chapter scraped in updatechapter scrapper.js");
     }
   } catch (err) {
-    console.log(err);
+    console.log(url);
+    console.log("error in scraper.js : updateChapter");
   }
 };
+
 export { scraper, scrapeTotal, scrapeLinks, updateChapter };

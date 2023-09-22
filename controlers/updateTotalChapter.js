@@ -6,7 +6,8 @@ const updateTotalChapter = async (values) => {
   const totalChapter = values.totalChapter;
   let sql;
 
-  if (newTotalChapter.numberOfChapter > totalChapter) {
+  if (newTotalChapter.length <= 0) return;
+  if (newTotalChapter[0] > totalChapter) {
     sql = `UPDATE mangalist
     SET lastChapter = ?,
     totalChapter = ?,
@@ -15,20 +16,6 @@ const updateTotalChapter = async (values) => {
   } else {
     return;
   }
-
-  console.log("here");
-
-  // db.query(sql, (err, result) => {
-  //   db.release();
-  //   if (result) {
-  //     const message = `${id}:${totalChapter}`;
-  //     return message;
-  //   } else {
-  //     console.log(err);
-  //     const message = "error";
-  //     return message;
-  //   }
-  // });
 
   try {
     db.getConnection((err, connection) => {
@@ -48,7 +35,7 @@ const updateTotalChapter = async (values) => {
           }
 
           const message = `${id}:${newTotalChapter}`;
-          resolve(message);
+
           if (result) {
             return message;
           }
