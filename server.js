@@ -247,6 +247,6 @@ cron.schedule("0 2 * * *", (err) => {
   chapterUpdate();
 });
 
-app.listen(4000, () => {
+app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
