@@ -91,6 +91,7 @@ const scrapeTotal = async (url) => {
     }
   } catch (error) {
     console.log(error);
+    return "error in scrapper.js : scrapeTotal";
   }
 };
 
