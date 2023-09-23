@@ -2,8 +2,6 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
-  url = "https://ww6.manganelo.tv/chapter/manga-qq951425/chapter-586";
-  elemClass = "blazefast";
   let data = [];
   let currentIndex = 0;
 
@@ -51,7 +49,6 @@ const scraper = async (url, elemClass) => {
     }
   }
 };
-scraper();
 
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
