@@ -22,7 +22,7 @@ const scraper = async (url, elemClass) => {
       const $ = cheerio.load(response.data);
       const images = $(searchRegex);
       images.each(async (index, element) => {
-        const imageUrl = $(element).attr("data-lazy-src");
+        const imageUrl = $(element).attr("src");
         if (imageUrl) {
           let cleanedLink = imageUrl.replace(/\t/g, "").replace(/\n/g, "");
           data.push(cleanedLink);
