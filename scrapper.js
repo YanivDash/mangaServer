@@ -5,7 +5,7 @@ const scraper = async (url, elemClass) => {
   let data = [];
   let currentIndex = 0;
 
-  let imgType = ["", "jpg", "jpeg", "chapter", "png"];
+  let imgType = ["", "jpg", "jpeg", "chapter"];
 
   imgType[0] = elemClass;
   imgType = Array.from(new Set(imgType));
@@ -13,7 +13,7 @@ const scraper = async (url, elemClass) => {
   while (true) {
     const searchClass = imgType[currentIndex];
     let searchRegex = `img[src$=${searchClass}]`;
-    if (currentIndex > 3) {
+    if (currentIndex > 2) {
       searchRegex = `img`;
     }
 
@@ -21,11 +21,15 @@ const scraper = async (url, elemClass) => {
       const response = await axios.get(url);
       const $ = cheerio.load(response.data);
       const images = $(searchRegex);
+
       images.each(async (index, element) => {
         const imageUrl = $(element).attr("src");
+        const regex = /\.png$/;
         if (imageUrl) {
-          let cleanedLink = imageUrl.replace(/\t/g, "").replace(/\n/g, "");
-          data.push(cleanedLink);
+          if (!regex.test(imageUrl || searchClass == png)) {
+            let cleanedLink = imageUrl.replace(/\t/g, "").replace(/\n/g, "");
+            data.push(cleanedLink);
+          }
         }
       });
 
@@ -49,7 +53,7 @@ const scraper = async (url, elemClass) => {
     }
   }
 };
-
+scraper();
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];
