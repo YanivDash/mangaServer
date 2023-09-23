@@ -53,7 +53,7 @@ const scraper = async (url, elemClass) => {
     }
   }
 };
-scraper();
+
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];
