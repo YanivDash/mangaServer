@@ -7,36 +7,26 @@ const mangaWeb = async (values) => {
     values.mangaName,
     values.mangaCover,
     values.mangaClass,
+    values.mangaType,
   ];
   let totalChapterD = 0;
   await scrapeTotal(values.websiteName).then((d) => {
-    console.log(d);
     valuesArray.push(d.totalChapters);
     valuesArray.push(d.firstChapter);
     valuesArray.push(d.lastChapter);
     totalChapterD = d.totalChapters;
   });
 
-  let message;
-
   if (totalChapterD < -1 || totalChapterD > 5500) {
-    message = "could not scrape total chapter";
+    let message = "could not scrape total chapter";
     console.log(message);
     return message;
   }
 
-  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaClass\`,\`totalChapter\`,\`firstChapter\`,\`lastChapter\`) VALUES (?, ?, ?, ?, ?, ? ,?)`;
+  const sql = `INSERT INTO mangalist (\`websiteName\`, \`mangaName\`, \`mangaCover\`, \`mangaClass\`, \`mangaType\` ,\`totalChapter\`,\`firstChapter\`,\`lastChapter\`) VALUES (?, ?, ?, ?, ?, ?, ? ,?)`;
 
   try {
     const result = await new Promise((resolve, reject) => {
-      // db.query(sql, valuesArray, (err, result) => {
-      //   db.release();
-      //   if (err) {
-      //     reject("error");
-      //   } else {
-      //     resolve(result);
-      //   }
-      // });
       db.getConnection((err, connection) => {
         if (err) {
           console.error("Error getting database connection:", err);

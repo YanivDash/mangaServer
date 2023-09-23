@@ -2,6 +2,8 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
+  url = "https://ww6.manganelo.tv/chapter/manga-qq951425/chapter-586";
+  elemClass = "blazefast";
   let data = [];
   let currentIndex = 0;
 
@@ -22,17 +24,18 @@ const scraper = async (url, elemClass) => {
       const $ = cheerio.load(response.data);
       const images = $(searchRegex);
       images.each(async (index, element) => {
-        const imageUrl = $(element).attr("src");
-
-        let cleanedLink = imageUrl.replace(/\t/g, "").replace(/\n/g, "");
-        data.push(cleanedLink);
+        const imageUrl = $(element).attr("data-lazy-src");
+        if (imageUrl) {
+          let cleanedLink = imageUrl.replace(/\t/g, "").replace(/\n/g, "");
+          data.push(cleanedLink);
+        }
       });
 
       if (data.length > 4) {
-        console.log(`elemments with class ${searchClass}`);
+        console.log(`elemments with class ${searchRegex}`);
       } else {
         console.log(
-          `No img elemments with class ${searchClass} found on the page.`
+          `No img elemments with class ${searchRegex} found on the page.`
         );
       }
     } catch (error) {
@@ -40,15 +43,15 @@ const scraper = async (url, elemClass) => {
       return;
     } finally {
       currentIndex = currentIndex + 1;
-      if (data.length > 6 || currentIndex > 5) {
-        return data;
-      }
-      if (data.length > 6 || currentIndex > 5) {
+
+      if (data.length > 5 || currentIndex > 4) {
+        console.log(data);
         return data;
       }
     }
   }
 };
+scraper();
 
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
