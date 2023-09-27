@@ -17,7 +17,7 @@ const mangaWeb = async (values) => {
     totalChapterD = d.totalChapters;
   });
 
-  if (totalChapterD < -1 || totalChapterD > 5500) {
+  if (!totalChapterD || totalChapterD <= 0) {
     let message = "could not scrape total chapter";
     console.log(message);
     return message;
