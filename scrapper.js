@@ -47,7 +47,6 @@ const scraper = async (url, elemClass) => {
       currentIndex = currentIndex + 1;
 
       if (data.length > 5 || currentIndex > 4) {
-        console.log(data);
         return data;
       }
     }
@@ -71,7 +70,6 @@ const scrapeTotal = async (url) => {
 
     if (data.length > 3) {
       console.log({
-        data,
         totalChapters: data.length,
         firstChapter: data[data.length - 1],
         lastChapter: data[0],
@@ -107,7 +105,6 @@ const scrapeLinks = async (url) => {
     data = Array.from(new Set(data));
 
     if (data.length > 3) {
-      console.log(data);
       return data;
     } else {
       return "failed to load chapters";
