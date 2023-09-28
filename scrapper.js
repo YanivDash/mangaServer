@@ -108,7 +108,6 @@ const scrapeLinks = async (url) => {
     function extractNumberFromLink(link) {
       const re = /chapter.*/gi;
       const newStr = link.match(re)[0];
-      // console.log(newStr);
       const reg = /\d+/g;
       const num = newStr
         .match(reg)
@@ -121,6 +120,18 @@ const scrapeLinks = async (url) => {
     }
 
     data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+
+    while (true) {
+      const re = /chapter.*/gi;
+      const newStr = data[data.length - 1].match(re)[0];
+      const reg = /\d+/g;
+      const num = newStr.match(reg);
+      if (!num) {
+        console.log(data.splice(-1));
+      } else {
+        break;
+      }
+    }
 
     if (data.length > 3) {
       return data;
