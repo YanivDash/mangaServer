@@ -224,6 +224,7 @@ app.delete("/deleteManga", (req, res) => {
     res.json({ Error: "no data was sent" });
     return;
   }
+  console.log(data);
   const { id } = data;
 
   const sql = `DELETE FROM manglist WHERE id = ?`;
