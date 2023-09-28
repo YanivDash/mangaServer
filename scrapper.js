@@ -69,7 +69,7 @@ const scrapeTotal = async (url) => {
     data = Array.from(new Set(data));
 
     function extractNumberFromLink(link) {
-      const re = /chapter.*/gi;
+      const re = /chapter.*[a-z]|chapter.*/gi;
       const newStr = link.match(re)[0];
       const reg = /\d+/g;
       const num = newStr
@@ -134,7 +134,7 @@ const scrapeLinks = async (url) => {
     data = Array.from(new Set(data));
 
     function extractNumberFromLink(link) {
-      const re = /chapter.*/gi;
+      const re = /chapter.*[a-z]|chapter.*/gi;
       const newStr = link.match(re)[0];
       const reg = /\d+/g;
       const num = newStr
@@ -187,7 +187,7 @@ const updateChapter = async (url) => {
     data = Array.from(new Set(data));
 
     function extractNumberFromLink(link) {
-      const re = /chapter.*/gi;
+      const re = /chapter.*[a-z]|chapter.*/gi;
       const newStr = link.match(re)[0];
       const reg = /\d+/g;
       const num = newStr
