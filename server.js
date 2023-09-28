@@ -233,7 +233,7 @@ app.delete("/deleteManga", (req, res) => {
       console.error("Error getting database connection:", err);
       return reject(err);
     }
-    connection.query(sql, id, (error, result) => {
+    connection.query(sql, [id], (error, result) => {
       connection.release();
 
       if (error) {
