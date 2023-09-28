@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 app.use(
   cors({
     origin: ["https://manganexus-library.netlify.app"],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "DELETE"],
     credentials: true,
   })
 );
