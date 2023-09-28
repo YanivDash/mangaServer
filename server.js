@@ -218,15 +218,11 @@ app.post("/updateManga", (req, res) => {
   });
 });
 
-app.delete("/deleteManga", (req, res) => {
-  const data = req.body;
-  if (!data) {
-    res.json({ Error: "no data was sent" });
-    return;
+app.delete("/deleteManga/:id", (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    return "no id sent here";
   }
-  console.log(data);
-  const { id } = data;
-
   const sql = `DELETE FROM manglist WHERE id = ?`;
 
   db.getConnection((err, connection) => {
