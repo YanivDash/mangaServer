@@ -68,6 +68,34 @@ const scrapeTotal = async (url) => {
 
     data = Array.from(new Set(data));
 
+    function extractNumberFromLink(link) {
+      const re = /chapter.*/gi;
+      const newStr = link.match(re)[0];
+      const reg = /\d+/g;
+      const num = newStr
+        .match(reg)
+        ?.sort((a, b) => parseInt(b) - parseInt(a))[0];
+      if (num >= 0) {
+        return num;
+      } else {
+        return -1;
+      }
+    }
+
+    data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+
+    while (true) {
+      const re = /chapter.*/gi;
+      const newStr = data[data.length - 1].match(re)[0];
+      const reg = /\d+/g;
+      const num = newStr.match(reg);
+      if (!num) {
+        console.log(data.splice(-1));
+      } else {
+        break;
+      }
+    }
+
     if (data.length > 3) {
       console.log({
         totalChapters: data.length,
@@ -158,7 +186,36 @@ const updateChapter = async (url) => {
 
     data = Array.from(new Set(data));
 
+    function extractNumberFromLink(link) {
+      const re = /chapter.*/gi;
+      const newStr = link.match(re)[0];
+      const reg = /\d+/g;
+      const num = newStr
+        .match(reg)
+        ?.sort((a, b) => parseInt(b) - parseInt(a))[0];
+      if (num >= 0) {
+        return num;
+      } else {
+        return -1;
+      }
+    }
+
+    data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
+
+    while (true) {
+      const re = /chapter.*/gi;
+      const newStr = data[data.length - 1].match(re)[0];
+      const reg = /\d+/g;
+      const num = newStr.match(reg);
+      if (!num) {
+        console.log(data.splice(-1));
+      } else {
+        break;
+      }
+    }
+
     if (data.length > 1) {
+      console.log([data.length, data[0]]);
       return [data.length, data[0]];
     } else {
       console.log("no chapter scraped in updatechapter scrapper.js");
