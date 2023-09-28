@@ -99,10 +99,28 @@ const scrapeLinks = async (url) => {
     const totalLink = $(elemClass);
     totalLink.each(async (index, element) => {
       const link = $(element).attr("href");
+
       data.push(link);
     });
 
     data = Array.from(new Set(data));
+
+    function extractNumberFromLink(link) {
+      const re = /chapter.*/gi;
+      const newStr = link.match(re)[0];
+      // console.log(newStr);
+      const reg = /\d+/g;
+      const num = newStr
+        .match(reg)
+        ?.sort((a, b) => parseInt(b) - parseInt(a))[0];
+      if (num >= 0) {
+        return num;
+      } else {
+        return -1;
+      }
+    }
+
+    data.sort((a, b) => extractNumberFromLink(b) - extractNumberFromLink(a));
 
     if (data.length > 3) {
       return data;
@@ -127,18 +145,7 @@ const updateChapter = async (url) => {
       data.push(link);
     });
 
-    let firstTen = data.slice(0, 10);
-
     data = Array.from(new Set(data));
-
-    let sortedFirstTen = data.slice(0, 20);
-    let sortedLastTen = data.slice(-20);
-
-    firstTen.forEach((item) => {
-      if (!item in sortedFirstTen && !item in sortedLastTen) {
-        data.append(item);
-      }
-    });
 
     if (data.length > 1) {
       return [data.length, data[0]];
