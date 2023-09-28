@@ -221,7 +221,7 @@ app.post("/updateManga", (req, res) => {
 app.delete("/deleteManga/:id", (req, res) => {
   const id = req.params.id;
   if (!id) {
-    return "no id sent here";
+    return res.status(400).json({ error: "no valid id found" });
   }
   console.log(id);
   const sql = `DELETE FROM mangalist WHERE id = ?`;
@@ -229,17 +229,18 @@ app.delete("/deleteManga/:id", (req, res) => {
   db.getConnection((err, connection) => {
     if (err) {
       console.error("Error getting database connection:", err);
-      return reject(err);
+      reject(err);
+      return res.status(400).json({ error: "Invalid request data." });
     }
     connection.query(sql, [id], (error, result) => {
       connection.release();
 
       if (error) {
         console.error("Error executing the query:", error);
-        return error;
+        return res.status(400).json({ error: "Error executing the query." });
       }
       const message = "updated latest and total ";
-      return message;
+      return res.status(200).json({ message: message });
     });
   });
 });
