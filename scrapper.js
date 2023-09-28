@@ -118,7 +118,7 @@ const scrapeTotal = async (url) => {
 
 const scrapeLinks = async (url) => {
   const elemClass = "a[href*=chapter]";
-
+  url = "https://ww7.jujmanga.com";
   let data = [];
 
   try {
@@ -162,6 +162,7 @@ const scrapeLinks = async (url) => {
     }
 
     if (data.length > 3) {
+      console.dir(data, { maxArrayLength: null });
       return data;
     } else {
       return "failed to load chapters";
@@ -171,7 +172,7 @@ const scrapeLinks = async (url) => {
     console.log(url);
   }
 };
-
+scrapeLinks();
 const updateChapter = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];

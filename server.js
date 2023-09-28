@@ -218,6 +218,34 @@ app.post("/updateManga", (req, res) => {
   });
 });
 
+app.delete("/deleteManga", (req, res) => {
+  const data = req.body;
+  if (!data) {
+    res.json({ Error: "no data was sent" });
+    return;
+  }
+  const { id } = data;
+
+  const sql = `DELETE FROM manglist WHERE id = ?`;
+
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      return reject(err);
+    }
+    connection.query(sql, id, (error, result) => {
+      connection.release();
+
+      if (error) {
+        console.error("Error executing the query:", error);
+        return error;
+      }
+      const message = "updated latest and total ";
+      return message;
+    });
+  });
+});
+
 const chapterUpdate = async () => {
   try {
     const data = await getAllManga();
