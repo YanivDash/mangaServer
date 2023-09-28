@@ -223,7 +223,8 @@ app.delete("/deleteManga/:id", (req, res) => {
   if (!id) {
     return "no id sent here";
   }
-  const sql = `DELETE FROM manglist WHERE id = ?`;
+  console.log(id);
+  const sql = `DELETE FROM mangalist WHERE id = ?`;
 
   db.getConnection((err, connection) => {
     if (err) {
