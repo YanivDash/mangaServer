@@ -5,14 +5,11 @@ const scraper = async (url, elemClass) => {
   let data = [];
   let currentIndex = 0;
 
-  let imgType = ["", "jpg", "jpeg", "chapter"];
-
-  imgType[0] = elemClass;
-  imgType = Array.from(new Set(imgType));
+  let imgType = ["jpg", "jpeg", "chapter"];
 
   while (true) {
     const searchClass = imgType[currentIndex];
-    let searchRegex = `img[src$=${searchClass}]`;
+    let searchRegex = `img[${elemClass}$=${searchClass}]`;
     if (currentIndex > 2) {
       searchRegex = `img`;
     }
@@ -23,7 +20,7 @@ const scraper = async (url, elemClass) => {
       const images = $(searchRegex);
 
       images.each(async (index, element) => {
-        const imageUrl = $(element).attr("src");
+        const imageUrl = $(element).attr(elemClass);
         const regex = /\.png$/;
         if (imageUrl) {
           if (!regex.test(imageUrl)) {
@@ -47,12 +44,12 @@ const scraper = async (url, elemClass) => {
       currentIndex = currentIndex + 1;
 
       if (data.length > 5 || currentIndex > 4) {
+        console.log(data);
         return data;
       }
     }
   }
 };
-
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];
@@ -160,8 +157,18 @@ const scrapeLinks = async (url) => {
       }
     }
 
+    const regex = /https|http/g;
+    const isDomain = data[0].match(regex);
+    if (!isDomain) {
+      const reg = /https:\/+.[a-z0-9.]*/gi;
+      const domain = url.match(reg)[0];
+      data.forEach((elem, index) => {
+        data[index] = `${domain}${elem}`;
+      });
+    }
+
     if (data.length > 3) {
-      console.dir(data, { maxArrayLength: null });
+      console.log(data);
       return data;
     } else {
       return "failed to load chapters";
