@@ -93,6 +93,15 @@ const scrapeTotal = async (url) => {
       }
     }
 
+    const regex = /https|http/g;
+    const isDomain = data[0].match(regex);
+    if (!isDomain) {
+      const reg = /https:\/+.[a-z0-9.]*/gi;
+      const domain = url.match(reg)[0];
+      data[data.length - 1] = `${domain}${data[data.length - 1]}`;
+      data[0] = `${domain}${data[0]}`;
+    }
+
     if (data.length > 3) {
       console.log({
         totalChapters: data.length,
@@ -219,6 +228,15 @@ const updateChapter = async (url) => {
       } else {
         break;
       }
+    }
+
+    const regex = /https|http/g;
+    const isDomain = data[0].match(regex);
+    if (!isDomain) {
+      const reg = /https:\/+.[a-z0-9.]*/gi;
+      const domain = url.match(reg)[0];
+
+      data[0] = `${domain}${data[0]}`;
     }
 
     if (data.length > 1) {
