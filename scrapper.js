@@ -2,7 +2,6 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
-  elemClass = "data-src";
   let data = [];
   let currentIndex = 0;
 
