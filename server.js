@@ -239,7 +239,7 @@ app.delete("/deleteManga/:id", (req, res) => {
         console.error("Error executing the query:", error);
         return res.status(400).json({ error: "Error executing the query." });
       }
-      const message = "updated latest and total ";
+      const message = "deleted successfully";
       return res.status(200).json({ message: message });
     });
   });

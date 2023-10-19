@@ -2,6 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const scraper = async (url, elemClass) => {
+  elemClass = "data-src";
   let data = [];
   let currentIndex = 0;
 
@@ -50,6 +51,7 @@ const scraper = async (url, elemClass) => {
     }
   }
 };
+
 const scrapeTotal = async (url) => {
   const elemClass = "a[href*=chapter]";
   let data = [];
@@ -248,6 +250,7 @@ const updateChapter = async (url) => {
   } catch (err) {
     console.log(url);
     console.log("error in scraper.js : updateChapter");
+    return -1;
   }
 };
 
