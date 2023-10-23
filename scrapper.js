@@ -38,6 +38,7 @@ const scraper = async (url, elemClass) => {
         );
       }
     } catch (error) {
+      console.log("error in Scrapper.js in Scrapper");
       console.log(error);
       return;
     } finally {
@@ -118,6 +119,7 @@ const scrapeTotal = async (url) => {
       return "failed to load chapters";
     }
   } catch (error) {
+    console.log("error in Scrapper.js in scrapeTotal");
     console.log(error);
     return "error in scrapper.js : scrapeTotal";
   }
@@ -184,6 +186,7 @@ const scrapeLinks = async (url) => {
       return "failed to load chapters";
     }
   } catch (error) {
+    console.log("error in Scrapper.js in ScrapeLinks");
     console.log(error);
     console.log(url);
   }
@@ -247,8 +250,8 @@ const updateChapter = async (url) => {
       console.log("no chapter scraped in updatechapter scrapper.js");
     }
   } catch (err) {
-    console.log(url);
     console.log("error in scraper.js : updateChapter");
+    console.log(url);
     return -1;
   }
 };
