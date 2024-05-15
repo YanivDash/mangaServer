@@ -45,7 +45,6 @@ const scraper = async (url, elemClass) => {
       currentIndex = currentIndex + 1;
 
       if (data.length > 5 || currentIndex > 4) {
-        console.log(data);
         return data;
       }
     }
@@ -180,7 +179,6 @@ const scrapeLinks = async (url) => {
     }
 
     if (data.length > 3) {
-      console.log(data);
       return data;
     } else {
       return "failed to load chapters";
@@ -244,7 +242,6 @@ const updateChapter = async (url) => {
     }
 
     if (data.length > 1) {
-      console.log([data.length, data[0]]);
       return [data.length, data[0]];
     } else {
       console.log("no chapter scraped in updatechapter scrapper.js");

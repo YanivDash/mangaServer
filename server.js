@@ -19,16 +19,13 @@ const port = process.env.PORT || process.env.DB_PORT;
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://manganexus-library.netlify.app"
-  );
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   next();
 });
 
 app.use(
   cors({
-    origin: ["https://manganexus-library.netlify.app"],
+    origin: ["http://localhost:5173"],
     methods: ["POST", "GET", "DELETE"],
     credentials: true,
   })
@@ -72,7 +69,7 @@ app.post("/createManga", async (req, res) => {
     if (!data) {
       return res.status(400).json({ error: "Invalid request data." });
     }
-    console.log(data);
+
     const result = await mangaWeb(data);
     return res.status(200).json({ message: result });
   } catch (error) {
@@ -123,7 +120,7 @@ app.post("/incrementViews", async (req, res) => {
     if (!data) {
       return res.status(400).json({ error: "Invalid request data." });
     }
-    console.log(data);
+
     await incrementViews(data);
 
     return res.status(200).json({ message: "Manga view incremented." });
@@ -191,15 +188,12 @@ app.post("/updateManga", (req, res) => {
   }
   const { id, updateNum, updateChap } = data;
 
-  console.log(data);
-
   const sql = `UPDATE mangalist
   SET lastChapter = ?,
   totalChapter = ?,
   dateUpdate = CURRENT_TIMESTAMP
   WHERE id = ?;`;
 
-  console.log(sql);
   db.getConnection((err, connection) => {
     if (err) {
       console.error("Error getting database connection:", err);
@@ -223,7 +217,34 @@ app.delete("/deleteManga/:id", (req, res) => {
   if (!id) {
     return res.status(400).json({ error: "no valid id found" });
   }
-  console.log(id);
+
+  const sql = `DELETE FROM mangalist WHERE id = ?`;
+
+  db.getConnection((err, connection) => {
+    if (err) {
+      console.error("Error getting database connection:", err);
+      reject(err);
+      return res.status(400).json({ error: "Invalid request data." });
+    }
+    connection.query(sql, [id], (error, result) => {
+      connection.release();
+
+      if (error) {
+        console.error("Error executing the query:", error);
+        return res.status(400).json({ error: "Error executing the query." });
+      }
+      const message = "deleted successfully";
+      return res.status(200).json({ message: message });
+    });
+  });
+});
+
+app.delete("/deleteManga/:id", (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    return res.status(400).json({ error: "no valid id found" });
+  }
+
   const sql = `DELETE FROM mangalist WHERE id = ?`;
 
   db.getConnection((err, connection) => {
@@ -274,6 +295,6 @@ cron.schedule("0 2 * * *", (err) => {
   chapterUpdate();
 });
 
-app.listen(port, () => {
+app.listen(9000, () => {
   console.log(`listening on port ${port}`);
 });
