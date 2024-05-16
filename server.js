@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [process.env.FRONT_WEBSITE_URL],
     methods: ["POST", "GET", "DELETE"],
     credentials: true,
   })
@@ -239,32 +239,32 @@ app.delete("/deleteManga/:id", (req, res) => {
   });
 });
 
-app.delete("/deleteManga/:id", (req, res) => {
-  const id = req.params.id;
-  if (!id) {
-    return res.status(400).json({ error: "no valid id found" });
-  }
+// app.delete("/deleteManga/:id", (req, res) => {
+//   const id = req.params.id;
+//   if (!id) {
+//     return res.status(400).json({ error: "no valid id found" });
+//   }
 
-  const sql = `DELETE FROM mangalist WHERE id = ?`;
+//   const sql = `DELETE FROM mangalist WHERE id = ?`;
 
-  db.getConnection((err, connection) => {
-    if (err) {
-      console.error("Error getting database connection:", err);
-      reject(err);
-      return res.status(400).json({ error: "Invalid request data." });
-    }
-    connection.query(sql, [id], (error, result) => {
-      connection.release();
+//   db.getConnection((err, connection) => {
+//     if (err) {
+//       console.error("Error getting database connection:", err);
+//       reject(err);
+//       return res.status(400).json({ error: "Invalid request data." });
+//     }
+//     connection.query(sql, [id], (error, result) => {
+//       connection.release();
 
-      if (error) {
-        console.error("Error executing the query:", error);
-        return res.status(400).json({ error: "Error executing the query." });
-      }
-      const message = "deleted successfully";
-      return res.status(200).json({ message: message });
-    });
-  });
-});
+//       if (error) {
+//         console.error("Error executing the query:", error);
+//         return res.status(400).json({ error: "Error executing the query." });
+//       }
+//       const message = "deleted successfully";
+//       return res.status(200).json({ message: message });
+//     });
+//   });
+// });
 
 const chapterUpdate = async () => {
   try {
@@ -290,7 +290,7 @@ const chapterUpdate = async () => {
   }
 };
 
-cron.schedule("0 2 * * *", (err) => {
+cron.schedule("0 2 * * 0", (err) => {
   console.log("Running API request...");
   chapterUpdate();
 });
