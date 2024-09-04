@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cron from "node-cron";
+import http from "http"
 dotenv.config();
 
 import db from "./database/dbConnection.js";
@@ -297,4 +298,22 @@ cron.schedule("0 2 * * 0", (err) => {
 
 app.listen(9000, () => {
   console.log(`listening on port ${port}`);
+
+      // Self-ping function
+      function keepAlive() {
+        http.get(`https://mangaserver.onrender.com`, (res) => {
+            res.on('data', () => {
+                // Consume response body to prevent memory leaks
+            });
+            res.on('end', () => {
+                console.log('Self-pinged the server to keep it alive');
+            });
+        }).on('error', (err) => {
+            console.error('Error in self-ping:', err.message);
+        });
+    }
+
+    // Ping every 10 minutes (600000 ms)
+    setInterval(keepAlive, 60000);
+
 });
