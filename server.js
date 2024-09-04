@@ -10,7 +10,7 @@ import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cron from "node-cron";
-import http from "http"
+import https from "https"
 dotenv.config();
 
 import db from "./database/dbConnection.js";
@@ -301,7 +301,7 @@ app.listen(9000, () => {
 
       // Self-ping function
       function keepAlive() {
-        http.get(`https://mangaserver.onrender.com`, (res) => {
+        https.get(`https://mangaserver.onrender.com`, (res) => {
             res.on('data', () => {
                 // Consume response body to prevent memory leaks
                 console.log("ping")
