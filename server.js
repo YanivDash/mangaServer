@@ -304,6 +304,7 @@ app.listen(9000, () => {
         http.get(`https://mangaserver.onrender.com`, (res) => {
             res.on('data', () => {
                 // Consume response body to prevent memory leaks
+                console.log("ping")
             });
             res.on('end', () => {
                 console.log('Self-pinged the server to keep it alive');
