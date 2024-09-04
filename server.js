@@ -315,6 +315,6 @@ app.listen(9000, () => {
     }
 
     // Ping every 10 minutes (600000 ms)
-    setInterval(keepAlive, 60000);
+    setInterval(keepAlive, 840000);
 
 });
